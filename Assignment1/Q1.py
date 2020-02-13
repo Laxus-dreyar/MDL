@@ -36,12 +36,14 @@ for i in range(10):
 
     for j in range(10):
         X_temo = np.array(X_train_number[j])
-        # X_temo.reshape(1,-1)
         X_temo = X_temo[:, np.newaxis]
         X_poly = poly.fit_transform(X_temo)
-        X_teme = X_train[:, np.newaxis]
+        
+        X_teme = X_test[:, np.newaxis]
         X_test_poly = poly.fit_transform(X_teme)
+        
         reg.fit(X_poly,Y_train_number[j]);
+        
         coef_list.append(reg.coef_)
         temp = reg.predict(X_test_poly)
         prediction_list.append(temp)
@@ -75,9 +77,9 @@ for i in range(10):
 final_bias = np.array(final_bias_list)
 final_varience = np.array(final_varience_list)
 x_cor = [i for i in range(1,11)]
-plt.plot(x_cor,final_bias)
+plt.plot(x_cor,final_varience)
 plt.xlabel('degree of model')
-plt.ylabel('Bais')
+plt.ylabel('Varience')
 plt.show()
 print(final_bias)
 print(final_varience)
