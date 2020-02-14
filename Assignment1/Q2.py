@@ -11,10 +11,12 @@ xfile1 = open('Q2_data/X_train.pkl','rb')
 xfile2 = open('Q2_data/X_test.pkl','rb')
 yfile1 = open('Q2_data/Y_train.pkl','rb')
 yfile2 = open('Q2_data/Fx_test.pkl','rb')
+
 X_train_number = pickle.load(xfile1)
 Y_train_number = pickle.load(yfile1)
 X_test = pickle.load(xfile2)
 y_test = pickle.load(yfile2)
+
 final_bias_list = []
 final_varience_list = []
 
@@ -28,7 +30,7 @@ for i in range(10):
     X_teme = X_test[:, np.newaxis]
     X_test_poly = poly.fit_transform(X_teme)
     
-    for j in range(10):
+    for j in range(20):
         X_temo = np.array(X_train_number[j])
         X_temo = X_temo[:, np.newaxis]
         X_poly = poly.fit_transform(X_temo)

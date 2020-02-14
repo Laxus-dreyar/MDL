@@ -9,10 +9,12 @@ import pandas as pd
 
 dbfile = open('Q1_data/data.pkl','rb')
 db = pickle.load(dbfile)
-le = db.shape[0]
+
 X = db[:,0]
 y = db[:,1]
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
+
 X_train_number_list = []
 Y_train_number_list = []
 
