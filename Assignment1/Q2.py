@@ -25,13 +25,13 @@ for i in range(10):
     prediction_list = []
     reg = linear_model.LinearRegression()
 
+    X_teme = X_test[:, np.newaxis]
+    X_test_poly = poly.fit_transform(X_teme)
+    
     for j in range(10):
         X_temo = np.array(X_train_number[j])
         X_temo = X_temo[:, np.newaxis]
         X_poly = poly.fit_transform(X_temo)
-        
-        X_teme = X_test[:, np.newaxis]
-        X_test_poly = poly.fit_transform(X_teme)
         
         reg.fit(X_poly,Y_train_number[j]);
         temp = reg.predict(X_test_poly)
