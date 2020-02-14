@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import PolynomialFeatures
 import pickle
 import matplotlib.pyplot as plt 
+import pandas as pd
 
 xfile1 = open('Q2_data/X_train.pkl','rb')
 xfile2 = open('Q2_data/X_test.pkl','rb')
@@ -19,12 +20,9 @@ final_varience_list = []
 
 
 for i in range(10):
-
+    
     poly = PolynomialFeatures(degree=i+1)
-    bias_array_list = []
-    coef_list = []
     prediction_list = []
-    varience_list = []
     reg = linear_model.LinearRegression()
 
     for j in range(10):
@@ -36,46 +34,37 @@ for i in range(10):
         X_test_poly = poly.fit_transform(X_teme)
         
         reg.fit(X_poly,Y_train_number[j]);
-        
-        coef_list.append(reg.coef_)
         temp = reg.predict(X_test_poly)
         prediction_list.append(temp)
 
-    coef = np.array(coef_list)
+
     prediction = np.array(prediction_list)
 
-    for j in range(X_test.shape[0]):
-        X_specific_sample = prediction[:,j]
-        expec = np.sum(X_specific_sample)
-        expec = expec/10
-        X_specific_sample = (X_specific_sample - expec)
-        X_specific_sample**=2
-        X_specific_sample/=10
-        var = np.sum(X_specific_sample)
-        varience_list.append(var)
-        bias_array_list.append((expec - y_test[j])*(expec - y_test[j]))
+    expec = np.mean(prediction,axis = 0)
+    bias = np.subtract(expec,y_test)
+    bias**=2
 
-    bias = np.array(bias_array_list)
-    varience = np.array(varience_list)
-    final_sum = np.sum(bias)
-    final_sum = final_sum/X_test.shape[0]
-    final_sum = math.sqrt(final_sum)
-    fi_sum = np.sum(varience)
-    fi_sum = fi_sum/X_test.shape[0]
-    final_varience_list.append(fi_sum)
-    final_bias_list.append(final_sum)
+    varience = np.var(prediction,axis=0)
 
-fig = plt.figure()
-plt1 = fig.add_subplot(221) 
-plt2 = fig.add_subplot(223)
-fig.subplots_adjust(hspace=.5,wspace=0.5) 
+    bias_avg = np.mean(bias)
+    bias_avg = math.sqrt(bias_avg)
+
+    var_avg = np.mean(varience)
+
+    final_varience_list.append(var_avg)
+    final_bias_list.append(bias_avg)
+
 final_bias = np.array(final_bias_list)
 final_varience = np.array(final_varience_list)
-x_cor = [i for i in range(1,11)]
-plt1.plot(x_cor,final_bias)
-plt1.set_title('Bias vs Degree of model')
-plt2.plot(x_cor,final_varience)
-plt2.set_title('Varience vs Degree of model')
+x_degree = [i for i in range(1,11)]
+data = {'Degree':x_degree,
+        'Bias':final_bias,
+        'Variance':final_varience}
+df = pd.DataFrame(data)
+print(df[['Degree','Bias','Variance']])
+final_bias_2 = final_bias**2
+plt.plot(x_degree,final_bias_2,label = '$bias^2$')
+plt.plot(x_degree,final_varience,label = '$varience$')
+plt.xlabel('degree')
+plt.legend()
 plt.show()
-print(final_bias)
-print(final_varience)
