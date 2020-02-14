@@ -6,24 +6,17 @@ from sklearn.preprocessing import PolynomialFeatures
 import pickle
 import matplotlib.pyplot as plt 
 
-dbfile = open('Q1_data/data.pkl','rb')
-db = pickle.load(dbfile)
-le = db.shape[0]
-X = db[:,0]
-y = db[:,1]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
-X_train_number_list = []
-Y_train_number_list = []
-
-for i in range(10):
-    X_train,X_temp,y_train,y_temp = train_test_split(X_train,y_train,test_size = 0.1)
-    X_train_number_list.append(X_temp)
-    Y_train_number_list.append(y_temp)
-
-X_train_number = np.array(X_train_number_list)
-Y_train_number = np.array(Y_train_number_list)
+xfile1 = open('Q2_data/X_train.pkl','rb')
+xfile2 = open('Q2_data/X_test.pkl','rb')
+yfile1 = open('Q2_data/Y_train.pkl','rb')
+yfile2 = open('Q2_data/Fx_test.pkl','rb')
+X_train_number = pickle.load(xfile1)
+Y_train_number = pickle.load(yfile1)
+X_test = pickle.load(xfile2)
+y_test = pickle.load(yfile2)
 final_bias_list = []
 final_varience_list = []
+
 
 for i in range(10):
 
