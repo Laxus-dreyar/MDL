@@ -83,36 +83,54 @@ for i in range(0,60):   #i = x*20 + y*5 + z
         recharge[i][i+20] = 0.8
         recharge[i][i] = 0.2
 
+k=0
+while True:
+
+    new_ut = np.zeros(60)
+    # break
+    for i in range(0,60):   #i = x*20 + y*5 + z
+        x = int(i/20)       #x represents stamina/50
+        y = int((i%20)/5)   #y represents arrows
+        z = int(i%5)        #z represents health/25
+
+        new_ut[i] = utility[i]
+        if z == 0:
+            continue
+
+        ma = 0
+        ac = 0
+        for j in range(60):
+            ma += utility[j] * shoot[i][j]
+        
+        temp = ma
+        ma = 0
+
+        for j in range(60):
+            ma += utility[j] * dogde[i][j]
+        
+        if ma > temp:
+            ac = 1
+        
+        temp = max(temp,ma)
+        ma = 0
+
+        for j in range(60):
+            ma += utility[j] * recharge[i][j]
+        
+        if ma > temp:
+            ac = 1
+        temp = max(temp,ma)
+        # print("(",x,",",y,",",z,")=",ac)
+        new_ut[i] = float(penalty + temp*gamma)
+
+    delerror = 0
+    for i in range(60):
+        delerror = max(abs(new_ut[i]-utility[i]),delerror)
+    print(delerror)
+    for i in range(60):
+        utility[i] = new_ut[i]
+    if delerror < delta:
+        break
+    k += 1
+
 print(utility)
-for i in range(0,60):   #i = x*20 + y*5 + z
-    x = int(i/20)       #x represents stamina/50
-    y = int((i%20)/5)   #y represents arrows
-    z = int(i%5)        #z represents health/25
-
-    if z == 0:
-        continue
-
-    ma = 0
-    ac = 0
-    for j in range(60):
-        ma += utility[j] * shoot[i][j]
-    
-    temp = ma
-    ma = 0
-
-    for j in range(60):
-        ma += utility[j] * dogde[i][j]
-    
-    if ma > temp:
-        ac = 1
-    
-    temp = ma
-    ma = 0
-
-    for j in range(60):
-        ma += utility[j] * recharge[i][j]
-    
-    if ma > temp:
-        ac = 1
-    
-    print("(",x,",",y,",",z,")=",ac)
