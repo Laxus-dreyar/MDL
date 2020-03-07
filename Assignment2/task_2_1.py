@@ -21,7 +21,8 @@ team_num = 88
 arr = [0.5,1,2]
 y_for_pur = team_num%3
 penalty = penalty/arr[y_for_pur]
-fd = open('./outputs/task_1_trace.txt','w+')
+fd = open('./outputs/task_2_part_1_trace.txt','w+')
+
 #shoot action
 for i in range(0,60):   #i = x*20 + y*5 + z
     x = int(i/20)       #x represents stamina/50
@@ -118,9 +119,9 @@ while True:
         for j in range(60):
             z1 = int(j%5)
             if(z1 == 0):
-                ma += (utility[j]*gamma) * shoot[i][j]
-            else:
-                ma += (utility[j]*gamma + penalty) * shoot[i][j]
+                ma += (utility[j]*gamma + 10 - 0.25) * shoot[i][j]
+            else:    
+                ma += (utility[j]*gamma - 0.25) * shoot[i][j]
         
         temp = ma
         ma = 0
@@ -128,9 +129,9 @@ while True:
         for j in range(60):
             z1 = int(j%5)
             if(z1 == 0):
-                ma += (utility[j]*gamma) * dogde[i][j]
+                ma += (utility[j]*gamma + 7.5) * dogde[i][j]
             else:    
-                ma += (utility[j]*gamma + penalty) * dogde[i][j]
+                ma += (utility[j]*gamma - 2.5) * dogde[i][j]
         
         if ma > temp:
             ac = "DODGE"
@@ -141,9 +142,9 @@ while True:
         for j in range(60):
             z1 = int(j%5)
             if(z1 == 0):
-                ma += (utility[j]*gamma) * recharge[i][j]
+                ma += (utility[j]*gamma + 7.5) * recharge[i][j]
             else:    
-                ma += (utility[j]*gamma + penalty) * recharge[i][j]
+                ma += (utility[j]*gamma - 2.5) * recharge[i][j]
         
         if ma > temp:
             ac = "RECHARGE"
