@@ -45,11 +45,14 @@ def send_request(id, vector, path):
     return response
 
 
+def compute_cost(vec):
+    cost = get_errors('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', vec)
+    return cost
+
 class Individual:
 
     def __init__(self,arr,valerror,testerror):
         self.genes = arr
-        self.cost = get_errors('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', arr)
         self.valerror = valerror
         self.testerror = testerror
 
@@ -65,7 +68,8 @@ class Individual:
                 ran = random.random()
                 ran = ran*2 - 1
                 vec.append(ran)
-        return Individual(vec)
+        cost = compute_cost(vec)
+        return Individual(vec,cost[0],cost[1])
 
 if __name__ == "__main__":
     """
@@ -151,4 +155,3 @@ if __name__ == "__main__":
     # print(err[1])
     # submit_status = submit('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', list(-np.arange(0,1.1,0.1)))
     # assert "submitted" in submit_status
-    
