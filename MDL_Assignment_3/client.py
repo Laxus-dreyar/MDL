@@ -49,6 +49,10 @@ def compute_cost(vec):
     cost = get_errors('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', vec)
     return cost
 
+def submiting(vec):
+    submit_status = submit('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', vec)
+    return submit_status
+
 class Individual:
 
     def __init__(self,arr,valerror,testerror):
@@ -79,39 +83,27 @@ if __name__ == "__main__":
     """
 
     # fd = open("population.txt",'w+')
-    # population = []
-    # population_size = 100
-    # fd1 = open("weights.txt",'r')
-    # data = fd1.readlines()
-    # fd1.close()
-    # j = 0
-    # vec = []
-    # valerror = 0
-    # testerror = 0
-    # for i in data:
-    #     if j == 0:
-    #         vec = i.split()
-    #         st = ''
-    #         for k in vec[10]:
-    #             if k!='\n':
-    #                 st = st + k
-    #         vec[10] = st
-    #     if j == 1:
-    #         st = ''
-    #         for k in i:
-    #             if k!='\n':
-    #                 st = st + k
-    #         valerror = float(st)
-    #     if j == 2:
-    #         st = ''
-    #         for k in i:
-    #             if k!='\n':
-    #                 st = st + k
-    #         testerror = float(st)
-    #         ind = Individual(vec,valerror,testerror)
-    #         population.append(ind)
-    #     j = j + 1
-    #     j = j%8
+    population = []
+    population_size = 100
+
+    fd1 = open("last_iteration.txt",'r')
+    data = fd1.readlines()
+    fd1.close()
+    for i in data:
+        i = i.strip('\n')
+        arr = i.split(" ")
+        # print(arr)
+        vec = []
+        for j in range(11):
+            x = float(arr[j])
+            vec.append(x)
+        valerror = float(arr[12])
+        testerror = float(arr[13])
+        ind = Individual(vec,valerror,testerror)
+        population.append(ind)
+
+    # for i in population:
+    #     print(i.genes,i.fitness,i.valerror,i.testerror)
 
     # vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
     # cost = compute_cost(vec)
@@ -120,14 +112,13 @@ if __name__ == "__main__":
     # for i in range(population_size-1):
     #     vec = []
     #     for j in range(11):
-    #         ran = random.random()
-    #         ran = ran*2 - 1
+    #         ran = random.uniform(-10,10)
     #         vec.append(ran)
     #     cost = compute_cost(vec)
     #     ind = Individual(vec,cost[0],cost[1])
     #     population.append(ind)
 
-    # for i in range(3):
+    # for i in range(15):
     #     population = sorted(population,key=lambda x: x.fitness)
     #     new_gen = []
     #     s = int(population_size/10)
@@ -158,10 +149,13 @@ if __name__ == "__main__":
     
     # fd.close()
 
-    vec = [-0.00016927573251173823, 0.0010953590656607808, 0.003731869524518327, 0.08922889556431182, 0.03587507175384199, -0.0015634754169704097, -7.439827367266828e-05, 3.7168210026033343e-06, 1.555252501348866e-08, -2.2215895929103804e-09, 2.306783174308054e-11]
-    err = get_errors('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', vec)
-    assert len(err) == 2
-    print(err[0])
-    print(err[1])
-    # submit_status = submit('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', list(-np.arange(0,1.1,0.1)))
-    # assert "submitted" in submit_status
+    # vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
+    # err = get_errors('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', vec)
+    # assert len(err) == 2
+    # print(err[0])
+    # print(err[1])
+
+    for i in range(10):
+        print(population[i].genes)
+        sub_stat = submiting(population[i].genes)
+        print(sub_stat)
