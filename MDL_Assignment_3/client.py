@@ -73,8 +73,8 @@ class Individual:
                 ran = random.random()
                 ran = ran*2 - 1
                 vec.append(ran)
-        # if vec == self.genes or vec == par2.genes:
-        #     return self.mate(par2)
+        if vec == self.genes or vec == par2.genes:
+            return self.mate(par2)
         cost = compute_cost(vec)
         return Individual(vec,cost[0],cost[1])
 
@@ -105,26 +105,26 @@ if __name__ == "__main__":
         ind = Individual(vec,valerror,testerror)
         population.append(ind)
 
-    # print(len(population))
-    # vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
-    # cost = compute_cost(vec)
-    # ind = Individual(vec,cost[0],cost[1])
-    # population.append(ind)
-    # for i in range(population_size-len(population)):
-    #     vec = []
-    #     for j in range(11):
-    #         ran = random.uniform(-10,10)
-    #         vec.append(ran)
-    #     cost = compute_cost(vec)
-    #     ind = Individual(vec,cost[0],cost[1])
-    #     population.append(ind)
+    print(len(population))
+    vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
+    cost = compute_cost(vec)
+    ind = Individual(vec,cost[0],cost[1])
+    population.append(ind)
+    for i in range(population_size-len(population)):
+        vec = []
+        for j in range(11):
+            ran = random.uniform(-10,10)
+            vec.append(ran)
+        cost = compute_cost(vec)
+        ind = Individual(vec,cost[0],cost[1])
+        population.append(ind)
     
-    # print(len(population))
+    print(len(population))
 
     # for i in population:
     #     print(i.genes,i.fitness,i.valerror,i.testerror)
 
-    for i in range(13):
+    for i in range(1):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         s = int(population_size/10)
