@@ -84,7 +84,7 @@ if __name__ == "__main__":
     to verify that the server is working for your ID.
     """
 
-    fd = open("population.txt",'w+')
+    # fd = open("population.txt",'w+')
     population = []
     population_size = 100
 
@@ -112,14 +112,14 @@ if __name__ == "__main__":
     # ind = Individual(vec,cost[0],cost[1])
     # population.append(ind)
 
-    for i in range(population_size-len(population)):
-        vec = []
-        for j in range(11):
-            ran = random.uniform(-10,10)
-            vec.append(ran)
-        cost = compute_cost(vec)
-        ind = Individual(vec,cost[0],cost[1])
-        population.append(ind)
+    # for i in range(population_size-len(population)):
+    #     vec = []
+    #     for j in range(11):
+    #         ran = random.uniform(-10,10)
+    #         vec.append(ran)
+    #     cost = compute_cost(vec)
+    #     ind = Individual(vec,cost[0],cost[1])
+    #     population.append(ind)
     
     print(len(population))
 
@@ -164,8 +164,11 @@ if __name__ == "__main__":
     # print(err[0])
     # print(err[1])
 
-    population = sorted(population,key=lambda x: x.fitness)
-    for i in range(10):
-        print(population[i].genes)
-        sub_stat = submiting(population[i].genes)
-        print(sub_stat,population[i].testerror)
+    population = sorted(population,key=lambda x: x.testerror)
+    for i in range(population_size):
+        print(population[i].valerror,population[i].testerror)
+
+    # for i in range(10):
+    #     print(population[i].genes)
+    #     sub_stat = submiting(population[i].genes)
+    #     print(sub_stat,population[i].testerror)
