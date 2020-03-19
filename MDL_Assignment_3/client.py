@@ -59,7 +59,7 @@ class Individual:
         self.genes = arr
         self.valerror = valerror
         self.testerror = testerror
-        self.fitness = self.valerror*abs(self.testerror-self.valerror)
+        self.fitness = self.valerror*(abs(self.testerror-self.valerror))*(abs(self.testerror-self.valerror))
 
     def mate(self,par2):
         vec = []
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     to verify that the server is working for your ID.
     """
 
-    # fd = open("population.txt",'w+')
+    fd = open("population.txt",'w+')
     population = []
     population_size = 100
 
@@ -106,10 +106,12 @@ if __name__ == "__main__":
         population.append(ind)
 
     print(len(population))
-    vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
-    cost = compute_cost(vec)
-    ind = Individual(vec,cost[0],cost[1])
-    population.append(ind)
+    
+    # vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
+    # cost = compute_cost(vec)
+    # ind = Individual(vec,cost[0],cost[1])
+    # population.append(ind)
+
     for i in range(population_size-len(population)):
         vec = []
         for j in range(11):
@@ -124,7 +126,7 @@ if __name__ == "__main__":
     # for i in population:
     #     print(i.genes,i.fitness,i.valerror,i.testerror)
 
-    # for i in range(1):
+    # for i in range(6):
     #     population = sorted(population,key=lambda x: x.fitness)
     #     new_gen = []
     #     s = int(population_size/10)
@@ -162,6 +164,7 @@ if __name__ == "__main__":
     # print(err[0])
     # print(err[1])
 
+    population = sorted(population,key=lambda x: x.fitness)
     for i in range(10):
         print(population[i].genes)
         sub_stat = submiting(population[i].genes)
