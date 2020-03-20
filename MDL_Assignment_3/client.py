@@ -2,6 +2,7 @@ import json
 import requests
 import numpy as np
 import random
+import math
 
 ######### DO NOT CHANGE ANYTHING IN THIS FILE ##################
 API_ENDPOINT = 'http://10.4.21.147'
@@ -59,7 +60,7 @@ class Individual:
         self.genes = arr
         self.valerror = valerror
         self.testerror = testerror
-        self.fitness = self.valerror*(abs(self.testerror-self.valerror))*(abs(self.testerror-self.valerror))*(abs(self.testerror-self.valerror))
+        self.fitness = math.sqrt(self.valerror)*(abs(self.testerror-self.valerror))*(abs(self.testerror-self.valerror))*(abs(self.testerror-self.valerror))*(abs(self.testerror-self.valerror))
 
     def mate(self,par2):
         vec = []
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     to verify that the server is working for your ID.
     """
 
-    # fd = open("population.txt",'w+')
+    fd = open("population.txt",'w+')
     population = []
     population_size = 100
 
@@ -126,26 +127,45 @@ if __name__ == "__main__":
     # for i in population:
     #     print(i.genes,i.fitness,i.valerror,i.testerror)
 
-    # for i in range(2):
-    #     population = sorted(population,key=lambda x: x.fitness)
-    #     new_gen = []
-    #     s = int(population_size/10)
-    #     new_gen.extend(population[:s])
-    #     s = population_size-s
-    #     for j in range(s):
-    #         parent1 = random.choice(population[:50]) 
-    #         parent2 = random.choice(population[:50]) 
-    #         child = parent1.mate(parent2) 
-    #         new_gen.append(child) 
-    #     for j in population:
-    #         for k in j.genes:
-    #             fd.write("%s "%k)
-    #         fd.write("%s "%j.fitness)
-    #         fd.write("%s "%j.valerror)
-    #         fd.write("%s "%j.testerror)
-    #         fd.write("\n")
-    #     # print(new_gen)
-    #     population = new_gen
+    for i in range(30):
+        population = sorted(population,key=lambda x: x.fitness)
+        new_gen = []
+        
+        s = int(population_size/10)
+        new_gen.extend(population[:s])
+        s = population_size-s
+        
+        for j in population:
+            for k in j.genes:
+                fd.write("%s "%k)
+            fd.write("%s "%j.fitness)
+            fd.write("%s "%j.valerror)
+            fd.write("%s "%j.testerror)
+            fd.write("\n")
+        
+        while True:
+            s = population_size - len(new_gen)
+            
+            for j in range(s):
+                parent1 = random.choice(population[:50]) 
+                parent2 = random.choice(population[:50]) 
+                child = parent1.mate(parent2) 
+                new_gen.append(child)
+            
+            new_gen_temp = []
+            
+            for j in range(population_size):
+                if j!=0 and new_gen[j].testerror == new_gen[j-1].testerror:
+                    continue
+                new_gen_temp.append(new_gen[j])
+            
+            new_gen = new_gen_temp
+            
+            if(len(new_gen) == population_size):
+                break
+        
+        # print(new_gen)
+        population = new_gen
     
     # population = sorted(population,key=lambda x: x.fitness)
     # for j in population:
@@ -169,7 +189,7 @@ if __name__ == "__main__":
     # for i in range(population_size):
     #     print(population[i].valerror,population[i].testerror)
 
-    for i in range(10):
-        print(population[i].genes)
-        sub_stat = submiting(population[i].genes)
-        print(sub_stat,population[i].testerror)
+    # for i in range(10):
+    #     print(population[i].genes)
+    #     sub_stat = submiting(population[i].genes)
+    #     print(sub_stat,population[i].testerror)
