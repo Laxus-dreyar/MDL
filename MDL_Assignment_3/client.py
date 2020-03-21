@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.valerror = valerror
         self.testerror = testerror
-        self.fitness = self.valerror * pow(self.testerror,6)
+        self.fitness = (self.valerror ** 5) * self.testerror
 
     def mate(self,par2):
         vec = []
@@ -124,10 +124,10 @@ if __name__ == "__main__":
     
     print(len(population))
 
-    # for i in population:
-    #     print(i.genes,i.fitness,i.valerror,i.testerror)
+    for i in population:
+        print(i.genes,i.fitness,i.valerror,i.testerror)
 
-    for i in range(7):
+    for i in range(1):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         
@@ -189,7 +189,7 @@ if __name__ == "__main__":
     # for i in range(population_size):
     #     print(population[i].valerror,population[i].testerror)
 
-    # for i in range(10):
-    #     print(population[i].genes)
+    # for i in range(20):
+    #     # print(population[i].genes)
     #     sub_stat = submiting(population[i].genes)
-    #     print(sub_stat,population[i].testerror)
+    #     print(sub_stat,population[i].valerror,population[i].testerror)
