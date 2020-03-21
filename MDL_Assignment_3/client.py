@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.valerror = valerror
         self.testerror = testerror
-        self.fitness = self.valerror * self.testerror * self.testerror * self.testerror
+        self.fitness = self.valerror * pow(self.testerror,6)
 
     def mate(self,par2):
         vec = []
@@ -89,8 +89,7 @@ if __name__ == "__main__":
     population = []
     population_size = 100
 
-    # fd1 = open("last_iteration.txt",'r')
-    fd1 = open("wow.txt",'r')
+    fd1 = open("last_iteration.txt",'r')
     data = fd1.readlines()
     fd1.close()
     for i in range(len(data)):
@@ -102,11 +101,8 @@ if __name__ == "__main__":
         for j in range(11):
             x = float(arr[j])
             vec.append(x)
-        # valerror = float(arr[12])
-        # testerror = float(arr[13])
-        cost = compute_cost(vec)
-        valerror = cost[0]
-        testerror = cost[1]
+        valerror = float(arr[12])
+        testerror = float(arr[13])
         ind = Individual(vec,valerror,testerror)
         population.append(ind)
 
@@ -131,7 +127,7 @@ if __name__ == "__main__":
     # for i in population:
     #     print(i.genes,i.fitness,i.valerror,i.testerror)
 
-    for i in range(20):
+    for i in range(7):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         
