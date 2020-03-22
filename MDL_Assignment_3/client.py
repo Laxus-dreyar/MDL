@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.valerror = valerror
         self.testerror = testerror
-        self.fitness = (self.valerror ** 5) * self.testerror
+        self.fitness = pow(self.valerror,0.2) * (self.testerror ** 8)
 
     def mate(self,par2):
         vec = []
@@ -124,10 +124,10 @@ if __name__ == "__main__":
     
     print(len(population))
 
-    for i in population:
-        print(i.genes,i.fitness,i.valerror,i.testerror)
+    # for i in population:
+    #     print(i.genes,i.fitness,i.valerror,i.testerror)
 
-    for i in range(1):
+    for i in range(10):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         
