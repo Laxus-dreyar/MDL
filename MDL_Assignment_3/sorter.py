@@ -80,7 +80,7 @@ class Individual:
 
 if __name__ == "__main__":
     
-    fd = open("values.txt",'r')
+    fd = open("array.txt",'r')
     data = fd.readlines()
     fd.close
     population = []
