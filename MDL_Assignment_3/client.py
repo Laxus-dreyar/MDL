@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = self.trainerror + self.valerror + (self.trainerror - self.valerror)**2
+        self.fitness = self.trainerror + self.valerror + abs((self.trainerror - self.valerror)**2)*20
 
     def mate(self,par2):
         vec = []
@@ -192,10 +192,6 @@ if __name__ == "__main__":
     # # #     sub_stat = submiting(population[i].genes)
     # # #     print(sub_stat,population[i].trainerror,population[i].valerror)
     
-    # for i in population:
-    #     sub = submiting(i.genes)
-    #     print(i.trainerror,i.valerror)
-    
     population = []
     population_size = 100
 
@@ -205,6 +201,7 @@ if __name__ == "__main__":
 
     arr = data[0].split(" ")
     vec = []
+    
     for j in range(11):
         x = float(arr[j])
         vec.append(x)
@@ -232,3 +229,9 @@ if __name__ == "__main__":
             fd.write("%s "%j.valerror)
             fd.write("\n")
     fd.close()
+    
+    population = sorted(population,key=lambda x: x.valerror)
+    
+    for i in population:
+        sub = submiting(i.genes)
+        print(i.trainerror,i.valerror)
