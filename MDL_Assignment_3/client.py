@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = self.trainerror * self.valerror * pow(abs(self.valerror-self.trainerror),0.001)
+        self.fitness = self.trainerror * self.valerror * math.log(abs(self.valerror-self.trainerror))
 
     def mate(self,par2):
         vec = []
@@ -195,12 +195,12 @@ if __name__ == "__main__":
     
     population_size = 100
 
-    fd1 = open("values.txt",'r')
+    fd1 = open("values1.txt",'r')
     data = fd1.readlines()
     fd1.close()
 
     fd = open("array.txt",'w+')
-    for itr in range(15):
+    for itr in range(4):
         population = []
         arr = data[itr].split(" ")
         if itr!=0 and data[itr] == data[itr-1]:
@@ -212,7 +212,7 @@ if __name__ == "__main__":
         trainerror = float(arr[12])
         valerror = float(arr[13])
         
-        if trainerror > 800000:
+        if trainerror > 790000 or valerror > 790000:
             continue
         
         ind = Individual(vec,trainerror,valerror)
