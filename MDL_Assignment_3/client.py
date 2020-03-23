@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = self.trainerror + self.valerror + abs((self.trainerror - self.valerror)**2)*20
+        self.fitness = self.trainerror + self.valerror
 
     def mate(self,par2):
         vec = []
@@ -192,46 +192,54 @@ if __name__ == "__main__":
     # # #     sub_stat = submiting(population[i].genes)
     # # #     print(sub_stat,population[i].trainerror,population[i].valerror)
     
-    population = []
+    
     population_size = 100
 
-    fd1 = open("last_iteration.txt",'r')
+    fd1 = open("values.txt",'r')
     data = fd1.readlines()
     fd1.close()
 
-    arr = data[0].split(" ")
-    vec = []
-    
-    for j in range(11):
-        x = float(arr[j])
-        vec.append(x)
-    trainerror = float(arr[12])
-    valerror = float(arr[13])
-    ind = Individual(vec,trainerror,valerror)
-    population.append(ind)
-
-    for i in range(population_size-1):
-        arr = []
-        for j in range(11):
-            x = random.uniform(vec[j]*0.8,vec[j]*1.2)
-            arr.append(x)
-        cost = compute_cost(arr)
-        ind = Individual(arr,cost[0],cost[1])
-        population.append(ind)
-    
     fd = open("array.txt",'w+')
-    population = sorted(population,key=lambda x: x.fitness)
-    for j in population:
-            for k in j.genes:
-                fd.write("%s "%k)
-            fd.write("%s "%j.fitness)
-            fd.write("%s "%j.trainerror)
-            fd.write("%s "%j.valerror)
-            fd.write("\n")
+    for itr in range(15):
+        population = []
+        arr = data[itr].split(" ")
+        vec = []
+        for j in range(11):
+            x = float(arr[j])
+            vec.append(x)
+        trainerror = float(arr[12])
+        valerror = float(arr[13])
+        
+        if trainerror > 850000:
+            continue
+        
+        ind = Individual(vec,trainerror,valerror)
+        population.append(ind)
+
+        for i in range(population_size-1):
+            arr = []
+            for j in range(11):
+                x = random.uniform(vec[j]*0.9,vec[j]*1.1)
+                arr.append(x)
+            cost = compute_cost(arr)
+            ind = Individual(arr,cost[0],cost[1])
+            population.append(ind)
+        
+        population = sorted(population,key=lambda x: x.fitness)
+        for j in population:
+                for k in j.genes:
+                    fd.write("%s "%k)
+                fd.write("%s "%j.fitness)
+                fd.write("%s "%j.trainerror)
+                fd.write("%s "%j.valerror)
+                fd.write("\n")
+        
+        population = sorted(population,key=lambda x: x.valerror)
+        
+        for i in range(20):
+            sub = submiting(population[i].genes)
+            print(population[i].trainerror,population[i].valerror)
+        
+        print("made 1 more population",itr+1)
+
     fd.close()
-    
-    population = sorted(population,key=lambda x: x.valerror)
-    
-    for i in population:
-        sub = submiting(i.genes)
-        print(i.trainerror,i.valerror)
