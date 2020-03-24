@@ -59,7 +59,7 @@ class Individual:
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = abs(self.trainerror - self.valerror)
+        self.fitness = abs(self.trainerror - self.valerror)**2 + self.trainerror + self.valerror
 
     def mate(self,par2):
         vec = []
