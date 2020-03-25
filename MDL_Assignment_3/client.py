@@ -265,6 +265,15 @@ if __name__ == "__main__":
         ind = Individual(vec,trainerror,valerror)
         population.append(ind)
 
+    population = sorted(population,key=lambda x: x.fitness)
+    for j in population:
+        for k in j.genes:
+            fd.write("%s "%k)
+        fd.write("%s "%j.fitness)
+        fd.write("%s "%j.trainerror)
+        fd.write("%s "%j.valerror)
+        fd.write("\n")
+
     for i in population:
         sub = submiting(i.genes)
         print(i.trainerror,i.valerror)
