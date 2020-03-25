@@ -178,59 +178,95 @@ if __name__ == "__main__":
     #     print(sub_stat,population[i].trainerror,population[i].valerror)
     
     
-    population_size = 100
+    # population_size = 100
 
-    fd1 = open("values1.txt",'r')
+    # fd1 = open("values1.txt",'r')
+    # data = fd1.readlines()
+    # fd1.close()
+
+    # fd = open("array.txt",'w+')
+    # for itr in range(10):
+    #     population = []
+    #     arr = data[itr].split(" ")
+    #     if itr!=0 and data[itr] == data[itr-1]:
+    #         continue
+    #     vec = []
+    #     for j in range(11):
+    #         x = float(arr[j])
+    #         vec.append(x)
+    #     trainerror = float(arr[12])
+    #     valerror = float(arr[13])
+        
+    #     if trainerror > 790000 or valerror > 790000:
+    #         continue
+        
+    #     ind = Individual(vec,trainerror,valerror)
+    #     population.append(ind)
+
+    #     for i in range(population_size-1):
+    #         arr = []
+            
+    #         for j in range(11):
+    #             x = random.uniform(vec[j]*0.9,vec[j]*1.1)
+    #             x = min(x,10)
+    #             x = max(x,-10)
+    #             arr.append(x)
+
+    #         cost = compute_cost(arr)
+    #         ind = Individual(arr,cost[0],cost[1])
+    #         population.append(ind)
+        
+    #     population = sorted(population,key=lambda x: x.fitness)
+    #     for j in population:
+    #         for k in j.genes:
+    #             fd.write("%s "%k)
+    #         fd.write("%s "%j.fitness)
+    #         fd.write("%s "%j.trainerror)
+    #         fd.write("%s "%j.valerror)
+    #         fd.write("\n")
+        
+    #     population = sorted(population,key=lambda x: x.fitness)
+        
+    #     for i in range(20):
+    #         sub = submiting(population[i].genes)
+    #         print(population[i].trainerror,population[i].valerror)
+        
+    #     print("made 1 more population",itr+1)
+
+    # fd.close()
+
+    fd = open("population.txt",'w+')
+    
+    fd1 = open("wow.txt",'r')
     data = fd1.readlines()
     fd1.close()
+    
+    population = []
+    population_size = 100
 
-    fd = open("array.txt",'w+')
-    for itr in range(10):
-        population = []
-        arr = data[itr].split(" ")
-        if itr!=0 and data[itr] == data[itr-1]:
+    for i in range(len(data)):
+
+        if i!=0 and data[i] == data[i-1]:
             continue
+
+        arr = data[i].split(" ")
         vec = []
+
         for j in range(11):
-            x = float(arr[j])
+            y = random.uniform(0.1**17,0.1**20)
+            x = float(arr[j]) + y
             vec.append(x)
-        trainerror = float(arr[12])
-        valerror = float(arr[13])
-        
-        if trainerror > 790000 or valerror > 790000:
+
+        cost = compute_cost(vec)
+        trainerror = cost[0]
+        valerror = cost[1]
+        if(trainerror > 1000000):
             continue
-        
         ind = Individual(vec,trainerror,valerror)
         population.append(ind)
 
-        for i in range(population_size-1):
-            arr = []
-            
-            for j in range(11):
-                x = random.uniform(vec[j]*0.9,vec[j]*1.1)
-                x = min(x,10)
-                x = max(x,-10)
-                arr.append(x)
-
-            cost = compute_cost(arr)
-            ind = Individual(arr,cost[0],cost[1])
-            population.append(ind)
-        
-        population = sorted(population,key=lambda x: x.fitness)
-        for j in population:
-            for k in j.genes:
-                fd.write("%s "%k)
-            fd.write("%s "%j.fitness)
-            fd.write("%s "%j.trainerror)
-            fd.write("%s "%j.valerror)
-            fd.write("\n")
-        
-        population = sorted(population,key=lambda x: x.fitness)
-        
-        for i in range(20):
-            sub = submiting(population[i].genes)
-            print(population[i].trainerror,population[i].valerror)
-        
-        print("made 1 more population",itr+1)
-
+    for i in population:
+        sub = submiting(i.genes)
+        print(i.trainerror,i.valerror)
+    
     fd.close()
