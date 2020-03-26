@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = ((self.trainerror - 600000)**2)*(self.valerror-450000)
+        self.fitness = ((self.trainerror - 600000)**5)*(self.valerror-450000)
 
     def mate(self,par2):
         vec = []
@@ -71,7 +71,15 @@ class Individual:
             elif prob >=0.55 and prob <0.9:
                 vec.append(par2.genes[i])
             else:
-                ran = random.uniform(-10,10)
+                x = self.genes[i]
+                y = par2.genes[i]
+                arr = []
+                arr.append(x)
+                arr.append(y)
+                r = random.choice(arr)
+                ran = random.uniform(r*0.9,r*1.1)
+                ran = max(ran,-10)
+                ran = min(ran, 10)
                 vec.append(ran)
         if vec == self.genes or vec == par2.genes:
             return self.mate(par2)
@@ -84,88 +92,92 @@ if __name__ == "__main__":
     to verify that the server is working for your ID.
     """
 
-    fd = open("population.txt",'w+')
-    population = []
-    population_size = 100
+    # fd = open("population.txt",'w+')
+    # population = []
+    # population_size = 100
 
-    fd1 = open("last_iteration.txt",'r')
-    data = fd1.readlines()
-    fd1.close()
+    # fd1 = open("last_iteration.txt",'r')
+    # data = fd1.readlines()
+    # fd1.close()
     
-    for i in range(len(data)):
+    # for i in range(len(data)):
 
-        if i!=0 and data[i] == data[i-1]:
-            continue
+    #     if i!=0 and data[i] == data[i-1]:
+    #         continue
 
-        arr = data[i].split(" ")
-        vec = []
+    #     arr = data[i].split(" ")
+    #     vec = []
 
-        for j in range(11):
-            x = float(arr[j])
-            vec.append(x)
+    #     for j in range(11):
+    #         x = float(arr[j])
+    #         vec.append(x)
 
-        trainerror = float(arr[12])
-        valerror = float(arr[13])
-        ind = Individual(vec,trainerror,valerror)
-        population.append(ind)
+    #     trainerror = float(arr[12])
+    #     valerror = float(arr[13])
+    #     ind = Individual(vec,trainerror,valerror)
+    #     population.append(ind)
 
-    print(len(population))
+    # print(len(population))
 
-    for i in range(5):
-        population = sorted(population,key=lambda x: x.fitness)
-        new_gen = []
+    # for i in range(5):
+    #     population = sorted(population,key=lambda x: x.fitness)
+    #     new_gen = []
         
-        s = int(population_size/10)
-        new_gen.extend(population[:s])
-        s = population_size-s
+    #     s = int(population_size/10)
+    #     new_gen.extend(population[:s])
+    #     s = population_size-s
         
-        for j in population:
-            for k in j.genes:
-                fd.write("%s "%k)
-            fd.write("%s "%j.fitness)
-            fd.write("%s "%j.trainerror)
-            fd.write("%s "%j.valerror)
-            fd.write("\n")
+    #     for j in population:
+    #         for k in j.genes:
+    #             fd.write("%s "%k)
+    #         fd.write("%s "%j.fitness)
+    #         fd.write("%s "%j.trainerror)
+    #         fd.write("%s "%j.valerror)
+    #         fd.write("\n")
         
-        while True:
+    #     while True:
             
-            s = population_size - len(new_gen)
+    #         s = population_size - len(new_gen)
             
-            for j in range(s):
-                parent1 = random.choice(population[:40]) 
-                parent2 = random.choice(population[:40]) 
-                if parent1.fitness < parent2.fitness:
-                    temp = parent1
-                    parent1 = parent2
-                    parent2 = temp
-                child = parent1.mate(parent2) 
-                new_gen.append(child)
+    #         for j in range(s):
+    #             parent1 = random.choice(population[:40]) 
+    #             parent2 = random.choice(population[:40]) 
+    #             if parent1.fitness < parent2.fitness:
+    #                 temp = parent1
+    #                 parent1 = parent2
+    #                 parent2 = temp
+    #             child = parent1.mate(parent2) 
+    #             new_gen.append(child)
             
-            new_gen_temp = []
+    #         new_gen_temp = []
             
-            for j in range(population_size):
-                if j!=0 and new_gen[j].valerror == new_gen[j-1].valerror:
-                    continue
-                new_gen_temp.append(new_gen[j])
+    #         for j in range(population_size):
+    #             if j!=0 and new_gen[j].valerror == new_gen[j-1].valerror:
+    #                 continue
+    #             new_gen_temp.append(new_gen[j])
             
-            new_gen = new_gen_temp
+    #         new_gen = new_gen_temp
             
-            if(len(new_gen) == population_size):
-                break
+    #         if(len(new_gen) == population_size):
+    #             break
 
-        print(i+1,"iterations done")
-        population = new_gen
+    #     print(i+1,"iterations done")
+    #     population = new_gen
+    #     for i in range(20):
+    #     # print(population[i].genes)
+    #         sub_stat = submiting(population[i].genes)
+    #         print(sub_stat,population[i].trainerror,population[i].valerror)
     
-    population = sorted(population,key=lambda x: x.fitness)
-    for j in population:
-        for k in j.genes:
-            fd.write("%s "%k)
-        fd.write("%s "%j.fitness)
-        fd.write("%s "%j.trainerror)
-        fd.write("%s "%j.valerror)
-        fd.write("\n")
+    # population = sorted(population,key=lambda x: x.fitness)
+    # for j in population:
+    #     for k in j.genes:
+    #         fd.write("%s "%k)
+    #     fd.write("%s "%j.fitness)
+    #     fd.write("%s "%j.trainerror)
+    #     fd.write("%s "%j.valerror)
+    #     fd.write("\n")
     
-    fd.close()
+    # fd.close()
 
     # population = sorted(population,key=lambda x: x.valerror)
 
@@ -176,61 +188,17 @@ if __name__ == "__main__":
     #     # print(population[i].genes)
     #     sub_stat = submiting(population[i].genes)
     #     print(sub_stat,population[i].trainerror,population[i].valerror)
-    
-    
-    # population_size = 100
 
-    # fd1 = open("values1.txt",'r')
-    # data = fd1.readlines()
-    # fd1.close()
-
-    # fd = open("array.txt",'w+')
-    # for itr in range(10):
-    #     population = []
-    #     arr = data[itr].split(" ")
-    #     if itr!=0 and data[itr] == data[itr-1]:
-    #         continue
-    #     vec = []
-    #     for j in range(11):
-    #         x = float(arr[j])
-    #         vec.append(x)
-    #     trainerror = float(arr[12])
-    #     valerror = float(arr[13])
-        
-    #     if trainerror > 790000 or valerror > 790000:
-    #         continue
-        
-    #     ind = Individual(vec,trainerror,valerror)
-    #     population.append(ind)
-
-    #     for i in range(population_size-1):
-    #         arr = []
-            
-    #         for j in range(11):
-    #             x = random.uniform(vec[j]*0.9,vec[j]*1.1)
-    #             x = min(x,10)
-    #             x = max(x,-10)
-    #             arr.append(x)
-
-    #         cost = compute_cost(arr)
-    #         ind = Individual(arr,cost[0],cost[1])
-    #         population.append(ind)
-        
-    #     population = sorted(population,key=lambda x: x.fitness)
-    #     for j in population:
-    #         for k in j.genes:
-    #             fd.write("%s "%k)
-    #         fd.write("%s "%j.fitness)
-    #         fd.write("%s "%j.trainerror)
-    #         fd.write("%s "%j.valerror)
-    #         fd.write("\n")
-        
-    #     population = sorted(population,key=lambda x: x.fitness)
-        
-    #     for i in range(20):
-    #         sub = submiting(population[i].genes)
-    #         print(population[i].trainerror,population[i].valerror)
-        
-    #     print("made 1 more population",itr+1)
-
-    # fd.close()
+    vec = [9.83096190561583e-13, 0.09194672464262571, -0.19517894463204027, 0.04278945456986637, 1.6174351198548857e-12, 9.306473186252947e-05, -3.7951803087933116e-13, -1.0105813752407601e-07, 6.356143813501433e-13, 2.7254937450014968e-11, 1.171608059818096e-16]
+    cost = compute_cost(vec)
+    fd = open("array.txt",'w+')
+    population = []
+    ind = Individual(vec,cost[0],cost[1])
+    for j in population:
+        for k in j.genes:
+            fd.write("%s "%k)
+        fd.write("%s "%j.fitness)
+        fd.write("%s "%j.trainerror)
+        fd.write("%s "%j.valerror)
+        fd.write("\n")
+    fd.close()
