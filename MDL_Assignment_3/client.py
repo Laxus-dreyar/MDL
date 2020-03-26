@@ -60,7 +60,7 @@ class Individual:
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = ((self.trainerror - 600000)**5)*(self.valerror-450000)
+        self.fitness = (self.trainerror ** 5)* self.valerror
 
     def mate(self,par2):
         vec = []
@@ -92,83 +92,124 @@ if __name__ == "__main__":
     to verify that the server is working for your ID.
     """
 
-    # fd = open("population.txt",'w+')
+    fd = open("population.txt",'w+')
+    population = []
+    population_size = 100
+
+    fd1 = open("last_iteration.txt",'r')
+    data = fd1.readlines()
+    fd1.close()
+    
+    for i in range(len(data)):
+
+        if i!=0 and data[i] == data[i-1]:
+            continue
+
+        arr = data[i].split(" ")
+        vec = []
+
+        for j in range(11):
+            x = float(arr[j])
+            vec.append(x)
+
+        trainerror = float(arr[12])
+        valerror = float(arr[13])
+        ind = Individual(vec,trainerror,valerror)
+        population.append(ind)
+
+    print(len(population))
+
+    for i in range(10):
+        population = sorted(population,key=lambda x: x.fitness)
+        new_gen = []
+        
+        s = int(population_size/10)
+        new_gen.extend(population[:s])
+        s = population_size-s
+        
+        for j in population:
+            for k in j.genes:
+                fd.write("%s "%k)
+            fd.write("%s "%j.fitness)
+            fd.write("%s "%j.trainerror)
+            fd.write("%s "%j.valerror)
+            fd.write("\n")
+        
+        while True:
+            
+            s = population_size - len(new_gen)
+            
+            for j in range(s):
+                parent1 = random.choice(population[:40]) 
+                parent2 = random.choice(population[:40]) 
+                if parent1.fitness < parent2.fitness:
+                    temp = parent1
+                    parent1 = parent2
+                    parent2 = temp
+                child = parent1.mate(parent2) 
+                new_gen.append(child)
+            
+            new_gen_temp = []
+            
+            for j in range(population_size):
+                if j!=0 and new_gen[j].valerror == new_gen[j-1].valerror:
+                    continue
+                new_gen_temp.append(new_gen[j])
+            
+            new_gen = new_gen_temp
+            
+            if(len(new_gen) == population_size):
+                break
+
+        print(i+1,"iterations done")
+        population = new_gen
+        for i in range(20):
+        # print(population[i].genes)
+            sub_stat = submiting(population[i].genes)
+            print(sub_stat,population[i].trainerror,population[i].valerror)
+    
+    population = sorted(population,key=lambda x: x.fitness)
+    for j in population:
+        for k in j.genes:
+            fd.write("%s "%k)
+        fd.write("%s "%j.fitness)
+        fd.write("%s "%j.trainerror)
+        fd.write("%s "%j.valerror)
+        fd.write("\n")
+    
+    fd.close()
+
+    population = sorted(population,key=lambda x: x.valerror)
+
+    # for i in range(population_size):
+    #     print(population[i].trainerror,population[i].valerror)
+
+    for i in range(20):
+        # print(population[i].genes)
+        sub_stat = submiting(population[i].genes)
+        print(sub_stat,population[i].trainerror,population[i].valerror)
+
+    # vec = [6.13667266729074e-13, 0.1436835185592703, -0.19517894463204077, 0.04755813097965246, 1.311532677472098e-12, 0.00010781490657613115, -2.9043005060506054e-13, -1.0650512089621311e-07, 9.27552883354227e-13, 2.7254693344035775e-11, 9.829351127366177e-18]
+    # for i in range(11):
+    #     y = random.uniform(0.1**15,0.1**20)
+    #     vec[i] = vec[i] + y
+    # cost = compute_cost(vec)
     # population = []
     # population_size = 100
 
-    # fd1 = open("last_iteration.txt",'r')
-    # data = fd1.readlines()
-    # fd1.close()
-    
-    # for i in range(len(data)):
+    # ind = Individual(vec,cost[0],cost[1])
+    # population.append(ind)
 
-    #     if i!=0 and data[i] == data[i-1]:
-    #         continue
-
-    #     arr = data[i].split(" ")
-    #     vec = []
-
+    # for i in range(population_size - 1):
+    #     arr = []
     #     for j in range(11):
-    #         x = float(arr[j])
-    #         vec.append(x)
-
-    #     trainerror = float(arr[12])
-    #     valerror = float(arr[13])
-    #     ind = Individual(vec,trainerror,valerror)
+    #         x = random.uniform(vec[j]*0.95,vec[j]*1.05)
+    #         arr.append(x)
+    #     cost = compute_cost(arr)
+    #     ind = Individual(arr,cost[0],cost[1])
     #     population.append(ind)
-
-    # print(len(population))
-
-    # for i in range(5):
-    #     population = sorted(population,key=lambda x: x.fitness)
-    #     new_gen = []
-        
-    #     s = int(population_size/10)
-    #     new_gen.extend(population[:s])
-    #     s = population_size-s
-        
-    #     for j in population:
-    #         for k in j.genes:
-    #             fd.write("%s "%k)
-    #         fd.write("%s "%j.fitness)
-    #         fd.write("%s "%j.trainerror)
-    #         fd.write("%s "%j.valerror)
-    #         fd.write("\n")
-        
-    #     while True:
-            
-    #         s = population_size - len(new_gen)
-            
-    #         for j in range(s):
-    #             parent1 = random.choice(population[:40]) 
-    #             parent2 = random.choice(population[:40]) 
-    #             if parent1.fitness < parent2.fitness:
-    #                 temp = parent1
-    #                 parent1 = parent2
-    #                 parent2 = temp
-    #             child = parent1.mate(parent2) 
-    #             new_gen.append(child)
-            
-    #         new_gen_temp = []
-            
-    #         for j in range(population_size):
-    #             if j!=0 and new_gen[j].valerror == new_gen[j-1].valerror:
-    #                 continue
-    #             new_gen_temp.append(new_gen[j])
-            
-    #         new_gen = new_gen_temp
-            
-    #         if(len(new_gen) == population_size):
-    #             break
-
-    #     print(i+1,"iterations done")
-    #     population = new_gen
-    #     for i in range(20):
-    #     # print(population[i].genes)
-    #         sub_stat = submiting(population[i].genes)
-    #         print(sub_stat,population[i].trainerror,population[i].valerror)
     
-    # population = sorted(population,key=lambda x: x.fitness)
+    # fd = open("population.txt",'w+')
     # for j in population:
     #     for k in j.genes:
     #         fd.write("%s "%k)
@@ -176,22 +217,4 @@ if __name__ == "__main__":
     #     fd.write("%s "%j.trainerror)
     #     fd.write("%s "%j.valerror)
     #     fd.write("\n")
-    
     # fd.close()
-
-    # population = sorted(population,key=lambda x: x.valerror)
-
-    # # for i in range(population_size):
-    # #     print(population[i].trainerror,population[i].valerror)
-
-    # for i in range(20):
-    #     # print(population[i].genes)
-    #     sub_stat = submiting(population[i].genes)
-    #     print(sub_stat,population[i].trainerror,population[i].valerror)
-
-    vec = [6.13667266729074e-13, 0.1436835185592703, -0.19517894463204077, 0.04755813097965246, 1.311532677472098e-12, 0.00010781490657613115, -2.9043005060506054e-13, -1.0650512089621311e-07, 9.27552883354227e-13, 2.7254693344035775e-11, 9.829351127366177e-18]
-    for i in range(11):
-        y = random.uniform(0.1**15,0.1**20)
-        vec[i] = vec[i] + y
-    cost = compute_cost(vec)
-    print(cost)
