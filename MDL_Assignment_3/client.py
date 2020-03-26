@@ -96,7 +96,7 @@ if __name__ == "__main__":
     population = []
     population_size = 100
 
-    fd1 = open("wow.txt",'r')
+    fd1 = open("last_iteration.txt",'r')
     data = fd1.readlines()
     fd1.close()
     
@@ -113,11 +113,8 @@ if __name__ == "__main__":
             x = float(arr[j]) + y
             vec.append(x)
 
-        # trainerror = float(arr[12])
-        # valerror = float(arr[13])
-        cost = compute_cost(vec)
-        trainerror = cost[0]
-        valerror = cost[1]
+        trainerror = float(arr[12])
+        valerror = float(arr[13])
         ind = Individual(vec,trainerror,valerror)
         population.append(ind)
 
@@ -127,7 +124,7 @@ if __name__ == "__main__":
         sub_stat = submiting(population[i].genes)
         print(sub_stat,population[i].trainerror,population[i].valerror)
 
-    for i in range(10):
+    for i in range(20):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         
@@ -171,8 +168,8 @@ if __name__ == "__main__":
 
         print(i+1,"iterations done")
         population = new_gen
+        population = sorted(population,key=lambda x: x.fitness)
         for i in range(20):
-        # print(population[i].genes)
             sub_stat = submiting(population[i].genes)
             print(sub_stat,population[i].trainerror,population[i].valerror)
     
