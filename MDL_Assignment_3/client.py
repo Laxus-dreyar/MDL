@@ -189,16 +189,9 @@ if __name__ == "__main__":
     #     sub_stat = submiting(population[i].genes)
     #     print(sub_stat,population[i].trainerror,population[i].valerror)
 
-    vec = [9.83096190561583e-13, 0.09194672464262571, -0.19517894463204027, 0.04278945456986637, 1.6174351198548857e-12, 9.306473186252947e-05, -3.7951803087933116e-13, -1.0105813752407601e-07, 6.356143813501433e-13, 2.7254937450014968e-11, 1.171608059818096e-16]
+    vec = [6.13667266729074e-13, 0.1436835185592703, -0.19517894463204077, 0.04755813097965246, 1.311532677472098e-12, 0.00010781490657613115, -2.9043005060506054e-13, -1.0650512089621311e-07, 9.27552883354227e-13, 2.7254693344035775e-11, 9.829351127366177e-18]
+    for i in range(11):
+        y = random.uniform(0.1**15,0.1**20)
+        vec[i] = vec[i] + y
     cost = compute_cost(vec)
-    fd = open("array.txt",'w+')
-    population = []
-    ind = Individual(vec,cost[0],cost[1])
-    for j in population:
-        for k in j.genes:
-            fd.write("%s "%k)
-        fd.write("%s "%j.fitness)
-        fd.write("%s "%j.trainerror)
-        fd.write("%s "%j.valerror)
-        fd.write("\n")
-    fd.close()
+    print(cost)
