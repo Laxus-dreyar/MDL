@@ -96,7 +96,7 @@ if __name__ == "__main__":
     population = []
     population_size = 100
 
-    fd1 = open("last_iteration.txt",'r')
+    fd1 = open("wow.txt",'r')
     data = fd1.readlines()
     fd1.close()
     
@@ -109,15 +109,23 @@ if __name__ == "__main__":
         vec = []
 
         for j in range(11):
-            x = float(arr[j])
+            y = random.uniform(0.1**15,0.1**17)
+            x = float(arr[j]) + y
             vec.append(x)
 
-        trainerror = float(arr[12])
-        valerror = float(arr[13])
+        # trainerror = float(arr[12])
+        # valerror = float(arr[13])
+        cost = compute_cost(vec)
+        trainerror = cost[0]
+        valerror = cost[1]
         ind = Individual(vec,trainerror,valerror)
         population.append(ind)
 
     print(len(population))
+    for i in range(50):
+        # print(population[i].genes)
+        sub_stat = submiting(population[i].genes)
+        print(sub_stat,population[i].trainerror,population[i].valerror)
 
     for i in range(10):
         population = sorted(population,key=lambda x: x.fitness)
