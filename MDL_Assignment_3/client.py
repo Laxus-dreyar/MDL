@@ -124,7 +124,7 @@ if __name__ == "__main__":
         sub_stat = submiting(population[i].genes)
         print(sub_stat,population[i].trainerror,population[i].valerror)
 
-    for i in range(20):
+    for i in range(40):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         
