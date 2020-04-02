@@ -54,13 +54,22 @@ def submiting(vec):
     submit_status = submit('SHgqKko0w8xXZFisPCJ4BqM7ccC9PHbsOU1eBXFIKo1Zlzcp6j', vec)
     return submit_status
 
+def make_rand(vec):
+    arr = []
+    for i in range(11):
+        x = random.uniform(vec[i]*0.95,vec[i]*1.05)
+        arr.append(x)
+    cost = compute_cost(arr)
+    ind = Individual(vec,cost[0],cost[1])
+    return ind
+
 class Individual:
 
     def __init__(self,arr,trainerror,valerror):
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = (self.trainerror ** 5)* self.valerror
+        self.fitness = (self.trainerror ** 5) * (pow(self.valerror,0.2))
 
     def mate(self,par2):
         vec = []
@@ -100,7 +109,7 @@ if __name__ == "__main__":
     data = fd1.readlines()
     fd1.close()
     
-    for i in range(len(data)):
+    for i in range(10):
 
         if i!=0 and data[i] == data[i-1]:
             continue
@@ -109,22 +118,25 @@ if __name__ == "__main__":
         vec = []
 
         for j in range(11):
-            y = random.uniform(0.1**15,0.1**17)
-            x = float(arr[j]) + y
+            x = float(arr[j])
             vec.append(x)
 
         trainerror = float(arr[12])
         valerror = float(arr[13])
         ind = Individual(vec,trainerror,valerror)
         population.append(ind)
+        for j in range(9):
+            ind = make_rand(vec)
+            population.append(ind)
 
+    population = sorted(population,key=lambda x: x.fitness)
     print(len(population))
-    for i in range(50):
+    for i in range(10):
         # print(population[i].genes)
         sub_stat = submiting(population[i].genes)
         print(sub_stat,population[i].trainerror,population[i].valerror)
 
-    for i in range(40):
+    for i in range(10):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         
@@ -168,7 +180,13 @@ if __name__ == "__main__":
 
         print(i+1,"iterations done")
         population = new_gen
+        
         population = sorted(population,key=lambda x: x.fitness)
+        for i in range(20):
+            sub_stat = submiting(population[i].genes)
+            print(sub_stat,population[i].trainerror,population[i].valerror)
+        
+        population = sorted(population,key=lambda x: x.valerror)
         for i in range(20):
             sub_stat = submiting(population[i].genes)
             print(sub_stat,population[i].trainerror,population[i].valerror)
