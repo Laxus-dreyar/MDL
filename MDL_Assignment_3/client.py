@@ -109,7 +109,7 @@ if __name__ == "__main__":
     data = fd1.readlines()
     fd1.close()
     
-    for i in range(10):
+    for i in range(len(data)):
 
         if i!=0 and data[i] == data[i-1]:
             continue
@@ -204,40 +204,7 @@ if __name__ == "__main__":
 
     population = sorted(population,key=lambda x: x.valerror)
 
-    # for i in range(population_size):
-    #     print(population[i].trainerror,population[i].valerror)
-
     for i in range(20):
         # print(population[i].genes)
         sub_stat = submiting(population[i].genes)
         print(sub_stat,population[i].trainerror,population[i].valerror)
-
-    # vec = [6.13667266729074e-13, 0.1436835185592703, -0.19517894463204077, 0.04755813097965246, 1.311532677472098e-12, 0.00010781490657613115, -2.9043005060506054e-13, -1.0650512089621311e-07, 9.27552883354227e-13, 2.7254693344035775e-11, 9.829351127366177e-18]
-    # for i in range(11):
-    #     y = random.uniform(0.1**15,0.1**20)
-    #     vec[i] = vec[i] + y
-    # cost = compute_cost(vec)
-    # population = []
-    # population_size = 100
-
-    # ind = Individual(vec,cost[0],cost[1])
-    # population.append(ind)
-
-    # for i in range(population_size - 1):
-    #     arr = []
-    #     for j in range(11):
-    #         x = random.uniform(vec[j]*0.95,vec[j]*1.05)
-    #         arr.append(x)
-    #     cost = compute_cost(arr)
-    #     ind = Individual(arr,cost[0],cost[1])
-    #     population.append(ind)
-    
-    # fd = open("population.txt",'w+')
-    # for j in population:
-    #     for k in j.genes:
-    #         fd.write("%s "%k)
-    #     fd.write("%s "%j.fitness)
-    #     fd.write("%s "%j.trainerror)
-    #     fd.write("%s "%j.valerror)
-    #     fd.write("\n")
-    # fd.close()
