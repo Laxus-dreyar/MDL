@@ -60,7 +60,7 @@ def make_rand(vec):
         x = random.uniform(vec[i]*0.95,vec[i]*1.05)
         arr.append(x)
     cost = compute_cost(arr)
-    ind = Individual(vec,cost[0],cost[1])
+    ind = Individual(arr,cost[0],cost[1])
     return ind
 
 class Individual:
