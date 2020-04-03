@@ -99,15 +99,25 @@ if __name__ == "__main__":
         population.append(ind)
 
     fd = open("values.txt",'w+')
-    population = sorted(population,key=lambda x: x.fitness)
     i = 0
-    for j in population:
-        if i%100 == 0:
-            ste = "Population no:" + str(int(i/100))
-            fd.write(ste + "\n")
-        fd.write("%s "%j.genes)
-        fd.write("%s "%j.trainerror)
-        fd.write("%s "%j.valerror)
+    for jkl in range(11):
+        ste = "Population no:" + str(int(jkl))
+        if jkl!=0:
+            ste = ste + " Or Crossover Population for iteration: " + str(int(jkl)-1)
+        fd.write(ste + "\n")
+        for j2 in range(100):
+            j = population[jkl*100 + j2]
+            fd.write("%s "%j.genes)
+            fd.write("%s "%j.trainerror)
+            fd.write("%s "%j.valerror)
+            fd.write("\n")
+        ste = "Vectors selected for crossover"
+        fd.write(ste + "\n")
+        for j2 in range(50):
+            j = population[jkl*100 + j2]
+            fd.write("%s "%j.genes)
+            fd.write("%s "%j.trainerror)
+            fd.write("%s "%j.valerror)
+            fd.write("\n")
         fd.write("\n")
-        i = i+1
     fd.close()
