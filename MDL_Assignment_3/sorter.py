@@ -59,7 +59,7 @@ class Individual:
         self.genes = arr
         self.trainerror = trainerror
         self.valerror = valerror
-        self.fitness = abs(self.trainerror - self.valerror)**2 + self.trainerror + self.valerror
+        self.fitness = (self.trainerror ** 5) * self.valerror
 
     def mate(self,par2):
         vec = []
@@ -86,7 +86,7 @@ if __name__ == "__main__":
     population = []
     population_size = 100
 
-    for i in range(len(data):
+    for i in range(len(data)):
         li = data[i]
         arr = li.split(" ")
         vec = []
@@ -100,11 +100,14 @@ if __name__ == "__main__":
 
     fd = open("values.txt",'w+')
     population = sorted(population,key=lambda x: x.fitness)
+    i = 0
     for j in population:
-            for k in j.genes:
-                fd.write("%s "%k)
-            fd.write("%s "%j.fitness)
-            fd.write("%s "%j.trainerror)
-            fd.write("%s "%j.valerror)
-            fd.write("\n")
+        if i%100 == 0:
+            ste = "Population no:" + str(int(i/100))
+            fd.write(ste + "\n")
+        fd.write("%s "%j.genes)
+        fd.write("%s "%j.trainerror)
+        fd.write("%s "%j.valerror)
+        fd.write("\n")
+        i = i+1
     fd.close()
