@@ -57,7 +57,8 @@ def submiting(vec):
 def make_rand(vec):
     arr = []
     for i in range(11):
-        x = random.uniform(vec[i]*0.95,vec[i]*1.05)
+        y = random.uniform(0.1**15,0.1**17)
+        x = random.uniform(vec[i]*0.95,vec[i]*1.05)+y
         arr.append(x)
     cost = compute_cost(arr)
     ind = Individual(arr,cost[0],cost[1])
@@ -208,3 +209,35 @@ if __name__ == "__main__":
     #     # print(population[i].genes)
     #     sub_stat = submiting(population[i].genes)
     #     print(sub_stat,population[i].trainerror,population[i].valerror)
+
+    # population = []
+    # population_size = 10
+    # fd = open("pic.txt",'r')
+    # data = fd.readlines()
+    # fd.close()
+
+    # print("initial population")
+    
+    # for i in range(10):
+    #     print(population[i].genes)
+
+    # for i in range(10):
+        
+    #     print("population : " + str(i+1))
+    #     population = sorted(population,key=lambda x: x.fitness)
+    #     new_gen = []
+
+    #     for j in range(9):
+    #         arr = [0,1,2,3]
+    #         x = int(random.choice(arr))
+    #         y = int(random.choice(arr))
+    #         parent1 = population[x]
+    #         parent2 = population[y]
+    #         if parent1.fitness < parent2.fitness:
+    #             temp = parent1
+    #             parent1 = parent2
+    #             parent2 = temp
+    #         child = parent1.mate(parent2) 
+    #         new_gen.append(child)
+    #         print(child.genes,x,y)
+    #     population = new_gen
