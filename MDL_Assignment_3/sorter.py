@@ -80,14 +80,13 @@ class Individual:
 
 if __name__ == "__main__":
     
-    fd = open("initial.txt",'r')
+    fd = open("trace.txt",'r')
     data = fd.readlines()
     fd.close()
     population = []
     population_size = 100
-    
-    inds = [0,3,10,15,27,53,64,72,84,90]
-    for i in inds:
+
+    for i in range(len(data):
         li = data[i]
         arr = li.split(" ")
         vec = []
