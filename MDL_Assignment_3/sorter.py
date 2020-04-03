@@ -80,14 +80,16 @@ class Individual:
 
 if __name__ == "__main__":
     
-    fd = open("array.txt",'r')
+    fd = open("initial.txt",'r')
     data = fd.readlines()
-    fd.close
+    fd.close()
     population = []
     population_size = 100
     
-    for i in data:
-        arr = i.split(" ")
+    inds = [0,3,10,15,27,53,64,72,84,90]
+    for i in inds:
+        li = data[i]
+        arr = li.split(" ")
         vec = []
         for j in range(11):
             vec.append(float(arr[j]))
