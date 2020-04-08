@@ -106,40 +106,40 @@ if __name__ == "__main__":
     population = []
     population_size = 100
 
-    fd1 = open("last_iteration.txt",'r')
+    fd1 = open("best_vals.txt",'r')
     data = fd1.readlines()
     fd1.close()
     
 
     """ uncomment for reading from file last_iteration.txt """
-    # for i in range(len(data)):
+    for i in range(len(data)):
 
-    #     if i!=0 and data[i] == data[i-1]:
-    #         continue
+        if i!=0 and data[i] == data[i-1]:
+            continue
 
-    #     arr = data[i].split(" ")
-    #     vec = []
+        arr = data[i].split(" ")
+        vec = []
 
-    #     for j in range(11):
-    #         x = float(arr[j])
-    #         vec.append(x)
+        for j in range(11):
+            x = float(arr[j])
+            vec.append(x)
 
-    #     trainerror = float(arr[12])
-    #     valerror = float(arr[13])
-    #     ind = Individual(vec,trainerror,valerror)
-    #     population.append(ind)
-
-    """ This is the code for initial population"""
-    vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
-    cost = compute_cost(vec)
-    ind = Individual(vec,cost[0],cost[1])
-    population.append(ind)
-    for i in range(99):
-        ind = make_rand(vec)
+        trainerror = float(arr[12])
+        valerror = float(arr[13])
+        ind = Individual(vec,trainerror,valerror)
         population.append(ind)
 
+    """ This is the code for initial population"""
+    # vec = [0.0, 0.1240317450077846, -6.211941063144333, 0.04933903144709126, 0.03810848157715883, 8.132366097133624e-05, -6.018769160916912e-05, -1.251585565299179e-07, 3.484096383229681e-08, 4.1614924993407104e-11, -6.732420176902565e-12]
+    # cost = compute_cost(vec)
+    # ind = Individual(vec,cost[0],cost[1])
+    # population.append(ind)
+    # for i in range(99):
+    #     ind = make_rand(vec)
+    #     population.append(ind)
 
-    for i in range(10):
+
+    for i in range(20):
         population = sorted(population,key=lambda x: x.fitness)
         new_gen = []
         
