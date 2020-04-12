@@ -191,8 +191,9 @@ print(alpha)
 print(R)
 
 x = cp.Variable(shape=(n,1), name="x")
+print(A_mat.shape,x.shape,R.shape)
 constraints = [cp.matmul(A_mat, x) == alpha, x>=0]
-objective = cp.Maximize(cp.matmul(R, x))
+objective = cp.Maximize(cp.sum(R*x))
 problem = cp.Problem(objective, constraints)
 
 solution = problem.solve()
