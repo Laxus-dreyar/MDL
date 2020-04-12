@@ -4,6 +4,11 @@ import json
 import os
 
 states = np.zeros(60,dtype=float)
+path = './outputs'
+try:  
+    os.mkdir(path)  
+except OSError as error:  
+    x=0
 
 for i in range(60):
     sta = int(i%3)        #sta represents stamina/50
@@ -267,22 +272,37 @@ for i in range(60):
     temp = [lis,action_taken]
     poli.append(temp)
 
+R_temp = []
+R = R.transpose()
+for i in range(n):
+    x1 = float(R[i])
+    R_temp.append(x1)
+alpha_temp = []
+for i in range(60):
+    x1 = float(alpha[i])
+    alpha_temp.append(x1)
+x_te = []
+for i in range(n):
+    x1 = float(X_array[i])
+    x_te.append(x1)
 print(poli)
 dict1 = {
     "a": [],
     "r": [],
     "x": [],
+    "alpha": [],
     "policy": [],
-    "objective": 0
+    "objective": solution
 }
-dict1["a"].append(A_mat.tolist())
-dict1["r"].append(R.tolist())
-dict1["x"].append(X_array.tolist())
-dict1["policy"].append(poli)
+dict1["a"] = A_mat.tolist()
+dict1["r"] = R_temp
+dict1["x"] = x_te
+dict1["alpha"] = alpha_temp
+dict1["policy"] = poli
 
   
-out_file = open("myfile.json", "w") 
+out_file = open("outputs/output.json", "w") 
   
-json.dump(dict1, out_file, indent = 4) 
+json.dump(dict1, out_file,indent=4) 
   
 out_file.close() 
