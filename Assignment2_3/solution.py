@@ -90,13 +90,13 @@ for i in range(60):
 
 A_mat = np.array(A).transpose()
 print(A_mat.shape)
-x = cp.Variable(shape=(n,1), name="x")
 R = np.zeros((n,1))
 
 for i in range(n):
     if actions[i] != 1:
         R[i] = -5
 
+R = R.transpose()
 alpha = np.zeros((60,1))
 alpha[59] = 1
 
@@ -110,7 +110,7 @@ for i in range(n):
     y = int((cur%12)/3)     #y represents arrows
     z = int(cur/12)         #z represents health/25
 
-    print(cur,i,z,y,sta)
+    # print(cur,i,z,y,sta)
     if z == 0:                              #will noop
         sta = sta+1
 
@@ -187,8 +187,12 @@ for i in range(60):
     fd.write("\n")
 fd.close()
 
-constraints = [cp.matmul(A_mat, x) <= alpha, cp.matmul(A_mat, x) >= alpha, x>=0]
-objective = cp.Maximize(cp.sum(x, axis=0))
+print(alpha)
+print(R)
+
+x = cp.Variable(shape=(n,1), name="x")
+constraints = [cp.matmul(A_mat, x) == alpha, x>=0]
+objective = cp.Maximize(cp.matmul(R, x))
 problem = cp.Problem(objective, constraints)
 
 solution = problem.solve()
