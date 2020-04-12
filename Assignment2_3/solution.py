@@ -1,5 +1,6 @@
 import numpy as np
 import cvxpy as cp
+import json 
 import os
 
 states = np.zeros(60,dtype=float)
@@ -220,12 +221,68 @@ fd.close()
 
 
 x = cp.Variable(shape=(n,1), name="x")
-
 constraints = [cp.matmul(A_mat, x) == alpha, x>=0]
 objective = cp.Maximize(cp.sum(R*x))
 problem = cp.Problem(objective, constraints)
 
 solution = problem.solve()
 print(solution)
-
 print(x.value)
+X_array = x.value
+
+des = np.zeros((60,1),dtype=int)
+
+cur = 0
+poli = []
+for i in range(60):
+    count = int(states[i])
+    maxi = X_array[cur]
+    opti = 0
+    for i in range(count):
+        if X_array[cur+i] > maxi:
+            maxi = X_array[cur+i]
+            opti = i
+    
+    stat = cur + opti
+    oristat = corre[stat]
+    act = actions[stat]
+    cur = cur + count
+
+    sta = int(oristat%3)        #sta represents stamina/50
+    y = int((oristat%12)/3)     #y represents arrows
+    z = int(oristat/12)         #z represents health/25
+
+    lis = [z,y,sta]
+    action_taken = "NOOP"
+
+    if act == 2:
+        action_taken = "SHOOT"
+    
+    if act == 3:
+        action_taken = "DODGE"
+    
+    if act == 4:
+        action_taken = "RECHARGE"
+    
+    temp = [lis,action_taken]
+    poli.append(temp)
+
+print(poli)
+dict1 = {
+    "a": [],
+    "r": [],
+    "x": [],
+    "policy": [],
+    "objective": 0
+}
+dict1["a"].append(A_mat.tolist())
+dict1["r"].append(R.tolist())
+dict1["x"].append(X_array.tolist())
+dict1["policy"].append(poli)
+
+  
+out_file = open("myfile.json", "w") 
+  
+json.dump(dict1, out_file, indent = 4) 
+  
+out_file.close() 
